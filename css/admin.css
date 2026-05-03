@@ -215,3 +215,55 @@
         box-sizing: border-box; /* Evita que el padding ensanche el input */
     }
 }
+
+/* =========================================
+   🛡️ EL GUARDIÁN DEL SCROLL HORIZONTAL
+========================================= */
+html, body {
+    overflow-x: hidden; /* Esto prohíbe terminantemente el movimiento a los lados */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+* {
+    box-sizing: border-box; /* Evita que los márgenes ensanchen las cajas */
+}
+
+/* =========================================
+   📱 MODO CELULAR ESTRICTO
+========================================= */
+@media (max-width: 768px) {
+    /* 1. Forzar a que TODO el contenedor de admin sea una columna */
+    /* (Añade aquí la clase de tu contenedor principal si se llama distinto) */
+    .admin-container, 
+    .admin-content,
+    main { 
+        display: flex !important;
+        flex-direction: column !important; /* Pone una cosa debajo de otra */
+        width: 100% !important;
+        padding: 10px !important;
+    }
+
+    /* 2. Forzar que las dos cajas negras ocupen el 100% del ancho */
+    .admin-form-section,
+    .admin-catalog-section,
+    .admin-container > div {
+        width: 100% !important;
+        min-width: 0 !important; /* Truco de flexbox para evitar desbordes */
+        margin-bottom: 20px !important;
+    }
+
+    /* 3. Que el buscador no rompa la cabecera */
+    .header-actions {
+        width: 100% !important;
+        flex-direction: column !important;
+        gap: 15px;
+    }
+
+    .search-input,
+    .search-bar {
+        width: 100% !important;
+        max-width: 100% !important;
+    }
+}
