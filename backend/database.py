@@ -1,12 +1,27 @@
-from sqlalchemy import create_engine, Column, Integer, String, ForeignKey
-from sqlalchemy.orm import declarative_base, sessionmaker, relationship
+import os
+from sqlalchemy import create_engine
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import sessionmaker
 
-# Configuración de la base de datos (Usaremos SQLite para que sea fácil)
-SQLALCHEMY_DATABASE_URL = "sqlite:///./anime_xureja.db"
+# 1. Buscamos la URL de la base de datos de Render. 
+# Si no existe (estás en tu PC), usamos la local xureja.db
+DATABASE_URL = os.getenv("DATABASE_URL")
 
-engine = create_engine(SQLALCHEMY_DATABASE_URL, connect_args={"check_same_thread": False})
+if DATABASE_URL and DATABASE_URL.startswith("postgres://"):
+    # Render a veces da la URL con "postgres://", pero SQLAlchemy pide "postgresql://"
+    DATABASE_URL = DATABASE_URL.replace("postgres://", "postgresql://", 1)
+
+if not DATABASE_URL:
+    DATABASE_URL = "sqlite:///./xureja.db"
+
+# 2. Creamos el motor (engine)
+# El argumento 'check_same_thread' solo es necesario para SQLite
+if "sqlite" in DATABASE_URL:
+    engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
+else:
+    engine = create_engine(DATABASE_URL)
+
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
 Base = declarative_base()
 
 # ==========================================
