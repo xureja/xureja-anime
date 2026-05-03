@@ -1,0 +1,778 @@
+/* =========================================
+   1. RESET BÁSICO Y VARIABLES
+========================================= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: #121212;
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+main {
+    flex: 1;
+}
+
+/* =========================================
+   2. HEADER Y NAVEGACIÓN
+========================================= */
+.main-header {
+    background-color: #1e1e1e;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 15px 40px;
+    position: sticky;
+    top: 0;
+    z-index: 9999;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    border-bottom: 2px solid #ff6b00;
+}
+
+.nav-menu {
+    display: flex;
+    gap: 25px;
+    align-items: center;
+}
+
+.nav-menu a {
+    color: #e0e0e0;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+}
+
+.nav-menu a:hover {
+    color: #ff6b00;
+}
+
+/* Enlace del panel de administrador (JS lo muestra) */
+.nav-admin-link {
+    display: none; 
+    color: #ff6b00 !important;
+    font-weight: bold !important;
+}
+
+.header-actions {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.search-bar input {
+    padding: 10px 20px;
+    border-radius: 25px;
+    border: none;
+    outline: none;
+    background-color: #2a2a2a;
+    color: #fff;
+    width: 250px;
+    transition: background-color 0.3s;
+}
+
+.search-bar input:focus {
+    background-color: #333;
+    outline: 1px solid #ff6b00;
+}
+
+/* =========================================
+   BOTÓN DE INICIAR SESIÓN (HEADER)
+========================================= */
+.btn-login {
+    background-color: #ff6b00;
+    color: #ffffff !important;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none !important;
+    font-weight: bold;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-login:hover {
+    background-color: #e66000;
+    color: #ffffff !important;
+    transform: translateY(-2px);
+}
+
+/* =========================================
+   3. HERO SECTION (Banner Principal Dinámico)
+========================================= */
+.hero {
+    position: relative;
+    height: 65vh;
+    display: flex;
+    align-items: center;
+    padding: 0 50px;
+    overflow: hidden; /* Evita que el difuminado se salga de los bordes */
+    background-color: #121212;
+    margin-bottom: 40px; /* Espacio extra para separar de las recomendaciones */
+}
+
+/* Capa 1: La imagen difuminada de fondo */
+.hero::before {
+    content: '';
+    position: absolute;
+    /* La hacemos un poco más grande para esconder los bordes borrosos */
+    top: -20px; left: -20px; right: -20px; bottom: -20px; 
+    background-image: var(--bg-image); /* Recibe la imagen desde JavaScript */
+    background-size: cover;
+    background-position: center 20%;
+    filter: blur(12px); /* Aquí está la magia del difuminado */
+    opacity: 0.5; /* Lo hacemos semi-transparente para que no brille tanto */
+    z-index: 1;
+    transition: background-image 0.5s ease-in-out;
+}
+
+/* Capa 2: El degradado oscuro (Fundido a negro) */
+.hero::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    /* Combinamos DOS degradados para lograr el efecto perfecto */
+    background: 
+        /* 1. Oscurece la izquierda para que el texto sea legible */
+        linear-gradient(to right, rgba(18,18,18,1) 5%, rgba(18,18,18,0.4) 50%, transparent 100%),
+        /* 2. Oscurece la parte de ABAJO para eliminar la línea de corte */
+        linear-gradient(to top, rgba(18,18,18,1) 0%, rgba(18,18,18,0) 35%);
+    z-index: 2;
+}
+
+/* Capa 3: El contenido (Textos y botón) */
+.hero-content { 
+    position: relative;
+    z-index: 3; /* Asegura que el texto esté por encima de la imagen y el degradado */
+    max-width: 600px; 
+}
+
+.hero-content h1 { 
+    font-size: 3.8rem; /* Título un poco más grande e imponente */
+    margin-bottom: 15px; 
+    color: #ffffff; 
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.8); /* Sombra más fuerte para que resalte */
+}
+
+.hero-content p { 
+    font-size: 1.15rem; 
+    margin-bottom: 30px; 
+    line-height: 1.7; 
+    color: #e0e0e0; 
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+.hero-content button { 
+    background-color: #ff6b00; 
+    color: #fff; 
+    border: none; 
+    padding: 12px 35px; 
+    font-size: 1.1rem; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    transition: transform 0.2s ease, background-color 0.3s, box-shadow 0.3s; 
+    box-shadow: 0 4px 15px rgba(255, 107, 0, 0.4); /* Le damos un brillo naranja al botón */
+}
+
+.hero-content button:hover { 
+    background-color: #e65c00; 
+    transform: translateY(-3px); /* Se levanta un poquito al pasar el mouse */
+    box-shadow: 0 6px 20px rgba(255, 107, 0, 0.6);
+}
+
+
+
+.hero-content { max-width: 600px; }
+.hero-content h1 { font-size: 3.5rem; margin-bottom: 15px; color: #ffffff; text-shadow: 2px 2px 4px rgba(0,0,0,0.5); }
+.hero-content p { font-size: 1.1rem; margin-bottom: 25px; line-height: 1.6; color: #cccccc; }
+.hero-content button { background-color: #ff6b00; color: #fff; border: none; padding: 12px 30px; font-size: 1.1rem; border-radius: 5px; cursor: pointer; font-weight: bold; transition: transform 0.2s ease, background-color 0.3s; }
+.hero-content button:hover { background-color: #e65c00; transform: scale(1.05); }
+
+/* =========================================
+   4. TARJETAS DE EPISODIOS (Últimos Capítulos Añadidos)
+========================================= */
+.latest-episodes { padding: 50px; }
+.latest-episodes h2 { margin-bottom: 30px; font-size: 1.8rem; border-left: 5px solid #ff6b00; padding-left: 15px; }
+
+.grid-episodes {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 20px;
+}
+
+.episode-card {
+    display: flex;
+    align-items: center;
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 10px;
+    gap: 15px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    border: 1px solid transparent;
+    cursor: pointer;
+}
+
+.episode-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.6);
+    border-color: #ff6b00;
+}
+
+.episode-img-wrapper {
+    position: relative;
+    width: 80px;
+    height: 115px;
+    flex-shrink: 0;
+    border-radius: 5px;
+    overflow: hidden;
+}
+
+.episode-img-wrapper img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+    display: block;
+}
+
+.episode-card:hover .episode-img-wrapper img {
+    transform: scale(1.1);
+}
+
+.play-icon {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(255, 107, 0, 0.9);
+    color: white;
+    border-radius: 50%;
+    width: 35px;
+    height: 35px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    font-size: 0.9rem;
+    padding-left: 3px;
+}
+
+.episode-card:hover .play-icon {
+    opacity: 1;
+}
+
+.episode-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.episode-info h3 {
+    color: white;
+    font-size: 1.1rem;
+    margin: 0 0 5px 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.episode-info p {
+    color: #ff9800;
+    margin: 0;
+    font-size: 0.95rem;
+    font-weight: bold;
+}
+
+/* =========================================
+   5. ÚLTIMOS ANIMES (Posters Verticales)
+========================================= */
+.latest-animes { padding: 0 50px 50px 50px; }
+.latest-animes h2 { margin-bottom: 30px; font-size: 1.8rem; border-left: 5px solid #ff6b00; padding-left: 15px; }
+.grid-animes { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 20px; margin-bottom: 10px; }
+.anime-card { cursor: pointer; transition: transform 0.3s ease; }
+.anime-card:hover { transform: scale(1.03); }
+.img-container { position: relative; border-radius: 10px; overflow: hidden; margin-bottom: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.4); }
+.img-container img { width: 100%; height: 270px; object-fit: cover; display: block; }
+.anime-overlay { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.75); display: flex; justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; }
+.anime-card:hover .anime-overlay { opacity: 1; }
+.anime-overlay span { color: #fff; background-color: #ff6b00; padding: 10px 20px; border-radius: 25px; font-weight: bold; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+.anime-card h3 { font-size: 1rem; color: #e0e0e0; text-align: center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+
+/* =========================================
+   6. FOOTER
+========================================= */
+footer { background-color: #1e1e1e; padding: 30px 50px; border-top: 1px solid #333; margin-top: auto; }
+.footer-content { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+footer p { color: #888; font-size: 0.9rem; }
+.footer-links { list-style: none; display: flex; gap: 20px; }
+.footer-links a { color: #b3b3b3; text-decoration: none; font-size: 0.9rem; transition: color 0.3s ease; }
+.footer-links a:hover { color: #ff6b00; }
+
+/* =========================================
+   7. PÁGINA DE REPRODUCTOR
+========================================= */
+.player-main { padding: 40px 50px; }
+.player-container { display: grid; grid-template-columns: 3fr 1fr; gap: 30px; }
+.video-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; }
+.video-header h2 { font-size: 1.5rem; color: #fff; }
+.btn-directory { background-color: #333; color: #fff; padding: 8px 15px; border-radius: 5px; text-decoration: none; font-size: 0.9rem; transition: background 0.3s; }
+.btn-directory:hover { background-color: #ff6b00; }
+.video-wrapper { position: relative; width: 100%; padding-bottom: 56.25%; background-color: #000; border-radius: 10px; overflow: hidden; box-shadow: 0 5px 15px rgba(0,0,0,0.6); }
+.video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: none; }
+.video-controls { display: flex; justify-content: space-between; align-items: center; margin-top: 20px; background-color: #1e1e1e; padding: 15px; border-radius: 10px; }
+.btn-nav { background-color: transparent; color: #ff6b00; border: 1px solid #ff6b00; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: all 0.3s; }
+.btn-nav:hover { background-color: #ff6b00; color: #fff; }
+.server-list { display: flex; align-items: center; gap: 10px; }
+.server-list span { color: #888; font-size: 0.9rem; }
+.btn-server { background-color: #333; color: #fff; border: none; padding: 6px 12px; border-radius: 4px; cursor: pointer; transition: background 0.3s; }
+.btn-server:hover, .btn-server.active { background-color: #ff6b00; }
+.episodes-sidebar { background-color: #1e1e1e; border-radius: 10px; padding: 20px; height: fit-content; }
+.episodes-sidebar h3 { margin-bottom: 15px; font-size: 1.2rem; border-bottom: 2px solid #333; padding-bottom: 10px; }
+.episodes-list { display: flex; flex-direction: column; gap: 10px; max-height: 500px; overflow-y: auto; padding-right: 5px; }
+.episodes-list::-webkit-scrollbar { width: 6px; }
+.episodes-list::-webkit-scrollbar-thumb { background-color: #ff6b00; border-radius: 10px; }
+.ep-item { display: flex; gap: 10px; text-decoration: none; color: #e0e0e0; padding: 10px; border-radius: 8px; background-color: #2a2a2a; transition: background 0.3s; }
+.ep-item:hover, .ep-item.active { background-color: #3d3d3d; border-left: 4px solid #ff6b00; }
+.ep-item img { width: 80px; height: 45px; object-fit: cover; border-radius: 4px; }
+.ep-info h4 { font-size: 0.95rem; color: #fff; }
+.ep-info span { font-size: 0.8rem; color: #aaa; }
+
+@media (max-width: 900px) {
+    .player-container { grid-template-columns: 1fr; }
+    .video-controls { flex-direction: column; gap: 15px; }
+}
+
+/* =========================================
+   8. PÁGINA DE DIRECTORIO
+========================================= */
+.directory-main { padding: 40px 50px; }
+.directory-header { margin-bottom: 30px; text-align: center; }
+.directory-header h2 { font-size: 2.5rem; color: #ff6b00; margin-bottom: 10px; }
+.directory-header p { color: #aaa; font-size: 1.1rem; }
+.filters-section { background-color: #1e1e1e; padding: 20px 30px; border-radius: 10px; margin-bottom: 40px; box-shadow: 0 4px 10px rgba(0,0,0,0.5); }
+.filters-form { display: flex; flex-wrap: wrap; gap: 20px; align-items: flex-end; }
+.filter-group { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 200px; }
+.filter-group label { font-size: 0.9rem; color: #e0e0e0; font-weight: bold; }
+.filter-group select { background-color: #2a2a2a; color: #fff; border: 1px solid #444; padding: 10px 15px; border-radius: 5px; outline: none; font-size: 1rem; cursor: pointer; transition: border-color 0.3s; }
+.filter-group select:focus { border-color: #ff6b00; }
+.btn-filter { background-color: #ff6b00; color: #fff; border: none; padding: 12px 30px; border-radius: 5px; font-weight: bold; font-size: 1rem; cursor: pointer; transition: background 0.3s; height: 44px; }
+.btn-filter:hover { background-color: #e65c00; }
+.pagination { display: flex; justify-content: center; align-items: center; gap: 10px; margin-top: 50px; }
+.page-link { background-color: #1e1e1e; color: #fff; text-decoration: none; padding: 10px 15px; border-radius: 5px; font-weight: bold; transition: background 0.3s, color 0.3s; }
+.page-link:hover:not(.disabled) { background-color: #ff6b00; }
+.page-link.active { background-color: #ff6b00; cursor: default; }
+.page-link.disabled { color: #555; cursor: not-allowed; }
+.page-dots { color: #888; font-weight: bold; padding: 0 5px; }
+
+@media (max-width: 768px) {
+    .filters-form { flex-direction: column; align-items: stretch; }
+    .btn-filter { width: 100%; }
+}
+
+/* =========================================
+   9. SISTEMA DE FAVORITOS Y ANIMACIONES EXTRA
+========================================= */
+
+/* Suaviza el cambio de imagen del banner principal */
+#hero-banner {
+    transition: background-image 0.5s ease-in-out, background-position 0.5s ease-in-out;
+}
+
+/* Diseño base del botón "Añadir a Mi Lista" */
+.btn-favorite {
+    background-color: #333;
+    color: #ffffff;
+    border: 1px solid #ff6b00;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+    font-weight: bold;
+    font-size: 0.95rem;
+    transition: all 0.3s ease;
+    display: none; /* Oculto por defecto hasta que JS confirme la sesión */
+}
+
+/* Efecto al pasar el mouse (cuando está gris) */
+.btn-favorite:hover {
+    background-color: #444;
+    transform: translateY(-2px);
+}
+
+/* Clase dinámica cuando el anime YA ESTÁ en la lista (Like) */
+.btn-favorite.active {
+    background-color: #ff6b00;
+    border-color: #ff6b00;
+}
+
+/* Efecto al pasar el mouse (cuando está naranja) */
+.btn-favorite.active:hover {
+    background-color: #e65c00;
+}
+
+/* =========================================
+   10. BUSCADOR MÁGICO (Búsqueda en vivo)
+========================================= */
+.search-results-dropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #1e1e1e;
+    border-radius: 8px;
+    margin-top: 5px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+    max-height: 350px;
+    overflow-y: auto;
+    z-index: 1000; /* Asegura que flote por encima de TODO */
+    display: none; /* Oculto por defecto */
+    border: 1px solid #333;
+}
+
+/* Estilo de la barra espaciadora del buscador */
+.search-results-dropdown::-webkit-scrollbar { width: 6px; }
+.search-results-dropdown::-webkit-scrollbar-thumb { background-color: #ff6b00; border-radius: 10px; }
+
+.search-result-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    gap: 15px;
+    text-decoration: none;
+    color: white;
+    border-bottom: 1px solid #333;
+    transition: background-color 0.3s;
+}
+
+.search-result-item:last-child {
+    border-bottom: none;
+}
+
+.search-result-item:hover {
+    background-color: #2a2a2a;
+    border-left: 3px solid #ff6b00;
+}
+
+.search-result-item img {
+    width: 40px;
+    height: 55px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.search-result-info h4 {
+    margin: 0;
+    font-size: 0.95rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 160px; /* Evita que títulos muy largos rompan la caja */
+}
+
+/* =========================================
+   11. PÁGINA DE MI LISTA (Colección)
+========================================= */
+.my-list-main {
+    padding: 40px 50px;
+}
+
+.my-list-title {
+    font-size: 2rem;
+    border-left: 5px solid #ff6b00;
+    padding-left: 15px;
+    margin-bottom: 30px;
+    color: #ffffff;
+}
+
+.my-list-message {
+    text-align: center;
+    margin-top: 50px;
+    font-size: 1.2rem;
+    color: #aaa;
+}
+
+.my-list-message a {
+    color: #ff6b00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.my-list-message a:hover {
+    color: #e65c00;
+    text-decoration: underline;
+}
+
+/* Limpieza del Logo */
+.logo-link {
+    text-decoration: none;
+}
+
+.logo-title {
+    color: white; 
+    font-size: 1.8rem; 
+    margin: 0;
+}
+
+.logo-title span {
+    color: #ff6b00;
+}
+
+/* Menú activo (Para saber en qué página estamos) */
+.nav-menu a.active-link {
+    color: #ff6b00;
+}
+
+/* Enlaces de las tarjetas creadas por JavaScript */
+.anime-card-link {
+    text-decoration: none; 
+    color: inherit;
+}
+
+/* Textos de error */
+.error-text {
+    color: red;
+}
+
+/* =========================================
+   14. MENÚ DE PERFIL DE USUARIO
+========================================= */
+.user-menu-container {
+    position: relative;
+    display: none; /* Se oculta por defecto, JS lo muestra si hay sesión */
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+    padding: 5px 0;
+}
+
+.user-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid #ff6b00;
+    background-color: #2a2a2a;
+    transition: transform 0.3s ease;
+}
+
+.user-menu-container:hover .user-avatar {
+    transform: scale(1.1);
+}
+
+.user-greeting {
+    color: #fff;
+    font-weight: bold;
+    font-size: 0.95rem;
+}
+
+/* El menú que se despliega */
+.user-dropdown {
+    position: absolute;
+    top: 150%; /* Lo bajamos un poco */
+    right: 0;
+    background-color: #1e1e1e;
+    border: 1px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.8);
+    min-width: 160px;
+    overflow: hidden;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+}
+
+/* Mostrar el menú al pasar el mouse por el contenedor */
+.user-menu-container:hover .user-dropdown {
+    opacity: 1;
+    visibility: visible;
+    top: 110%; /* Sube un poco para dar efecto de animación */
+}
+
+.user-dropdown a {
+    display: block;
+    padding: 12px 15px;
+    color: #e0e0e0;
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: bold;
+    transition: background 0.3s, padding-left 0.3s;
+}
+
+.user-dropdown a:hover {
+    background-color: #2a2a2a;
+    color: #ff6b00;
+    padding-left: 20px; /* Pequeño efecto de deslizamiento */
+}
+
+/* Botón rojo para cerrar sesión */
+.user-dropdown .logout-btn {
+    border-top: 1px solid #333;
+    color: #dc3545;
+}
+
+.user-dropdown .logout-btn:hover {
+    background-color: #dc3545;
+    color: #fff;
+}
+
+/* =========================================
+   15. PÁGINA DE PERFIL DE USUARIO
+========================================= */
+.profile-container {
+    max-width: 800px;
+    margin: 50px auto;
+    background-color: #1e1e1e;
+    padding: 40px;
+    border-radius: 10px;
+    border: 1px solid #333;
+    display: flex;
+    gap: 40px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+}
+
+.profile-sidebar {
+    text-align: center;
+    flex: 1;
+}
+
+.profile-avatar-large {
+    width: 160px;
+    height: 160px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 4px solid #ff6b00;
+    margin-bottom: 15px;
+    background-color: #2a2a2a;
+}
+
+.profile-username {
+    color: white; 
+    margin-top: 10px; 
+    font-size: 1.8rem;
+}
+
+.profile-content {
+    flex: 2;
+}
+
+.profile-section-title {
+    color: #ff6b00; 
+    border-bottom: 1px solid #333; 
+    padding-bottom: 10px; 
+    margin-bottom: 20px;
+}
+
+.profile-form-group {
+    margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
+}
+
+.profile-form-group label {
+    color: #aaa;
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+.profile-form-group input, .profile-form-group textarea {
+    background-color: #2a2a2a;
+    border: 1px solid #444;
+    color: white;
+    padding: 12px;
+    border-radius: 5px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+}
+
+.profile-form-group input:focus, .profile-form-group textarea:focus {
+    border-color: #ff6b00;
+    outline: none;
+}
+
+.profile-form-group textarea {
+    resize: vertical;
+    min-height: 120px;
+}
+
+.form-help-text {
+    color: #888; 
+    margin-top: 5px;
+    font-size: 0.85rem;
+}
+
+/* Botón de guardado que ocupa todo el ancho */
+.btn-primary-full {
+    background-color: #ff6b00; 
+    color: white; 
+    border: none; 
+    padding: 12px 25px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+    width: 100%;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.btn-primary-full:hover {
+    background-color: #e65c00;
+    transform: translateY(-2px);
+}
+
+/* Sistema de mensajes para el formulario */
+.profile-msg {
+    margin-top: 15px; 
+    font-weight: bold; 
+    text-align: center;
+}
+
+.msg-loading { color: #ccc; }
+.msg-success { color: #28a745; } /* Verde */
+.msg-error { color: #dc3545; } /* Rojo */
+
+/* Contenedor general de cada sección */
+.section-container {
+    margin-top: 20px; /* Antes estaba en 50px, lo bajamos a 20px */
+    margin-bottom: 20px; /* Le damos un tope por debajo */
+    padding: 0 50px;
+}
+
+/* Títulos de las secciones */
+.section-title-top, 
+.section-container h2 {
+    border-left: 5px solid #ff6b00;
+    padding-left: 15px;
+    margin-bottom: 15px; /* Reducimos el espacio debajo del título */
+    color: #fff;
+    font-size: 1.5rem; /* Un poco más sutil */
+}
+
+.loading-text {
+    color: #aaa;
+    text-align: center;
+    grid-column: 1 / -1;
+}
+
+/* Badge de vistas para las tarjetas de tendencia */
+.vistas-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.8);
+    color: #ff6b00;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    z-index: 5;
+}

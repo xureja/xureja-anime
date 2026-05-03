@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reproductor - Xureja Anime</title>
+    
+    <!-- CONEXIÓN A NUESTROS ARCHIVOS DE DISEÑO -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/reproductor.css">
+</head>
+<body>
+
+    <!-- CABECERA PRINCIPAL -->
+    <header class="main-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;">
+                <h1 style="color: white; font-size: 1.8rem; margin: 0;">Xureja <span style="color: #ff6b00;">Anime</span></h1>
+            </a>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="index.html">Inicio</a>
+            <a href="directorio.html">Directorio</a>
+            <a href="admin.html" id="nav-admin" class="nav-admin-link">Panel Admin 👑</a>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar anime...">
+            </div>
+            
+            <!-- ZONA DE AUTENTICACIÓN -->
+        <div class="header-auth">
+            <!-- Botón normal (Aparece si NO hay sesión) -->
+            <a href="login.html" id="btn-login-header" class="btn-login">Iniciar Sesión</a>
+            
+            <!-- Perfil Desplegable (Aparece si SÍ hay sesión) -->
+            <div id="user-profile-menu" class="user-menu-container">
+                <img src="" alt="Avatar" class="user-avatar" id="user-avatar-img">
+                <span class="user-greeting">Hola, <span id="nav-username" style="color: #ff6b00;">Usuario</span></span>
+                
+                <div class="user-dropdown">
+                    <a href="perfil.html">Mi Perfil</a>
+                    <a href="mi_lista.html">Mi Colección</a>
+                    <a href="#" id="btn-logout-dropdown" class="logout-btn">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <!-- ÁREA PRINCIPAL DEL REPRODUCTOR -->
+    <main class="player-main">
+        <div class="player-container">
+            
+            <!-- COLUMNA IZQUIERDA: EL VIDEO Y CONTROLES -->
+            <div class="video-section">
+                <div class="video-header">
+                    <h2 id="video-title">Cargando episodio...</h2>
+                    <a href="directorio.html" class="btn-directory">Ir al Directorio</a>
+                </div>
+                
+                <div class="video-wrapper">
+                    <iframe id="video-iframe" src="" allowfullscreen></iframe>
+                </div>
+                
+                <div class="video-controls">
+                    <a href="#" id="btn-prev" class="btn-nav" style="visibility: hidden;">« Episodio Anterior</a>
+                    
+                    <div class="server-list" id="server-list">
+                        <span>Servidores:</span>
+                        <!-- Javascript inyectará los botones aquí -->
+                    </div>
+                    
+                    <a href="#" id="btn-next" class="btn-nav" style="visibility: hidden;">Episodio Siguiente »</a>
+                </div>
+            </div>
+
+            <!-- COLUMNA DERECHA: LISTA DE EPISODIOS -->
+            <aside class="episodes-sidebar">
+                <h3>Lista de Episodios</h3>
+                <div class="episodes-list" id="episodes-list">
+                    <!-- Javascript inyectará los episodios aquí -->
+                    <p style="color: #aaa;">Cargando lista...</p>
+                </div>
+            </aside>
+
+        </div>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="footer-content">
+            <p>© 2026 Xureja Anime. Ningún vídeo se encuentra alojado en nuestros servidores.</p>
+            <ul class="footer-links">
+                <li><a href="#">Términos de servicio</a></li>
+                <li><a href="#">Política de privacidad</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- CONEXIÓN A NUESTROS ARCHIVOS DE LÓGICA -->
+    <script src="js/main.js"></script>
+    <script src="js/reproductor.js"></script>
+
+</body>
+</html>

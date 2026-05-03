@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administración - Xureja Anime</title>
+    
+    <!-- Hojas de estilo -->
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/admin.css">
+    
+    <!-- GUARDIA DE SEGURIDAD INVISIBLE -->
+    <script>
+        const usuarioAdmin = localStorage.getItem('usuarioXureja');
+        if (!usuarioAdmin || usuarioAdmin !== 'gonzalez') {
+            alert("🔒 Acceso denegado. Solo el administrador puede entrar aquí.");
+            window.location.replace('index.html');
+        }
+    </script>
+</head>
+<body>
+
+    <!-- CABECERA: Navegación principal -->
+    <header class="main-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;">
+                <h1 style="color: white; font-size: 1.8rem; margin: 0;">Xureja <span style="color: #ff6b00;">Anime</span></h1>
+            </a>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="index.html">Inicio</a>
+            <a href="directorio.html">Directorio</a>
+            
+            <!-- ENLACE ADMIN (JS LO MUESTRA) -->
+            <a href="admin.html" id="nav-admin" class="nav-admin-link">Panel Admin 👑</a>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar anime...">
+            </div>
+            
+            <!-- BOTÓN LOGIN (JS LO CAMBIA) -->
+            <!-- ZONA DE AUTENTICACIÓN -->
+        <div class="header-auth">
+            <!-- Botón normal (Aparece si NO hay sesión) -->
+            <a href="login.html" id="btn-login-header" class="btn-login">Iniciar Sesión</a>
+            
+            <!-- Perfil Desplegable (Aparece si SÍ hay sesión) -->
+            <div id="user-profile-menu" class="user-menu-container">
+                <img src="" alt="Avatar" class="user-avatar" id="user-avatar-img">
+                <span class="user-greeting">Hola, <span id="nav-username" style="color: #ff6b00;">Usuario</span></span>
+                
+                <div class="user-dropdown">
+                    <a href="perfil.html">Mi Perfil</a>
+                    <a href="mi_lista.html">Mi Colección</a>
+                    <a href="#" id="btn-logout-dropdown" class="logout-btn">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+
+    <div class="admin-layout">
+        
+        <!-- COLUMNA 1: AGREGAR CONTENIDO -->
+        <main class="admin-card">
+            <h2>Añadir Anime / Episodio</h2>
+            <form id="form-agregar">
+                <div class="form-group">
+                    <label>Título del Anime</label>
+                    <input type="text" id="add-titulo" required placeholder="Ej: Naruto Shippuden">
+                </div>
+                <div class="form-group">
+                    <label>Género</label>
+                    <input type="text" id="add-genero" required placeholder="Ej: Acción, Shonen">
+                </div>
+                <div class="form-group">
+                    <label>Sinopsis</label>
+                    <textarea id="add-sinopsis" rows="3" required placeholder="Descripción del anime..."></textarea>
+                </div>
+                <div class="form-group">
+                    <label>URL de la Portada</label>
+                    <input type="url" id="add-portada" required placeholder="https://ejemplo.com/imagen.jpg">
+                </div>
+                
+                <h3 style="color: white; margin: 20px 0 10px; font-size: 1rem;">Datos del Episodio</h3>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div class="form-group">
+                        <label>N° Episodio</label>
+                        <input type="number" id="add-num-ep" required min="1" placeholder="Ej: 1">
+                    </div>
+                    <div class="form-group">
+                        <label>Servidor</label>
+                        <input type="text" id="add-servidor" required value="Principal">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>URL del Video (Iframe/MP4)</label>
+                    <input type="url" id="add-video" required placeholder="https://ejemplo.com/video.mp4">
+                </div>
+
+                <button type="submit" class="btn-submit" id="btn-submit-add">Guardar en Base de Datos</button>
+                <p id="mensaje-add" style="margin-top: 15px; text-align: center; font-weight: bold;"></p>
+            </form>
+
+            <!-- SECCIÓN: GESTIONAR ANIMES (ELIMINAR) -->
+            <section style="margin-top: 50px;">
+                <h2 style="border-left: 5px solid #dc3545; padding-left: 15px; margin-bottom: 20px; color: #fff;">
+                    🗑️ Zona de Peligro: Eliminar Animes
+                </h2>
+                <div id="lista-eliminar-animes" class="delete-list">
+                    <p style="color: #aaa; text-align: center;">Cargando animes...</p>
+                </div>
+            </section>
+        </main>
+
+        <!-- COLUMNA 2: GESTIONAR CATÁLOGO -->
+        <aside class="admin-card">
+            <h2>Catálogo Publicado</h2>
+            <div id="lista-animes" class="anime-list">
+                <!-- Se llena con JavaScript -->
+                <p style="color: #aaa; text-align: center;">Cargando catálogo...</p>
+            </div>
+        </aside>
+
+    </div>
+
+    <!-- VENTANA MODAL (Oculta por defecto) -->
+    <div class="modal-overlay" id="modal-editar">
+        <div class="modal-content">
+            <h2 style="color: white; margin-bottom: 20px;">Editar Información</h2>
+            <form id="form-editar">
+                <!-- ID oculto para saber a quién estamos editando -->
+                <input type="hidden" id="edit-id">
+                
+                <div class="form-group">
+                    <label>Título del Anime</label>
+                    <input type="text" id="edit-titulo" required>
+                </div>
+                <div class="form-group">
+                    <label>Género</label>
+                    <input type="text" id="edit-genero" required>
+                </div>
+                <div class="form-group">
+                    <label>Sinopsis</label>
+                    <textarea id="edit-sinopsis" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>URL de la Portada</label>
+                    <input type="url" id="edit-portada" required>
+                </div>
+
+                <!-- NUEVOS CAMPOS LIMPIOS Y SEPARADOS DEL CSS -->
+                <h3 class="modal-divider">Editar / Añadir Episodio (Opcional)</h3>
+                
+                <div class="modal-grid">
+                    <div class="form-group">
+                        <label>N° Episodio</label>
+                        <input type="number" id="edit-num-ep" min="1" placeholder="Ej: 1">
+                    </div>
+                    <div class="form-group">
+                        <label>Servidor</label>
+                        <input type="text" id="edit-servidor" placeholder="Ej: Principal">
+                    </div>
+                </div>
+                
+                <div class="form-group form-group-last">
+                    <label>URL del Video (Iframe/MP4)</label>
+                    <input type="url" id="edit-video" placeholder="https://ejemplo.com/video.mp4">
+                </div>
+                
+                <button type="submit" class="btn-submit" id="btn-submit-edit">Guardar Cambios</button>
+                <button type="button" class="btn-cancel" onclick="cerrarModal()">Cancelar</button>
+                <p id="mensaje-edit" style="margin-top: 15px; text-align: center; font-weight: bold;"></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- CEREBRO JAVASCRIPT DEL PANEL -->
+    <script>
+        const apiBaseUrl = 'http://127.0.0.1:8000/api';
+
+        // ==========================================
+        // 1. CARGAR LA LISTA DE ANIMES AL ENTRAR
+        // ==========================================
+        function cargarCatalogo() {
+            fetch(`${apiBaseUrl}/inicio/animes`)
+                .then(res => res.json())
+                .then(animes => {
+                    const contenedor = document.getElementById('lista-animes');
+                    contenedor.innerHTML = '';
+                    
+                    if (animes.length === 0) {
+                        contenedor.innerHTML = '<p style="color:#aaa;">No hay animes publicados aún.</p>';
+                        return;
+                    }
+
+                    animes.forEach(anime => {
+                        contenedor.innerHTML += `
+                            <div class="anime-item">
+                                <img src="${anime.portada}" alt="Portada">
+                                <div class="anime-info">
+                                    <h4>${anime.titulo}</h4>
+                                    <p>${anime.genero}</p>
+                                </div>
+                                <!-- Pasamos todos los datos a la función de abrir modal -->
+                                <button class="btn-edit" onclick="abrirModal(${anime.id}, '${anime.titulo.replace(/'/g, "\\'")}', '${anime.genero.replace(/'/g, "\\'")}', '${anime.sinopsis.replace(/'/g, "\\'")}', '${anime.portada}')">
+                                    Editar
+                                </button>
+                            </div>
+                        `;
+                    });
+                });
+        }
+
+        // Cargamos la lista en cuanto abre la página
+        cargarCatalogo();
+
+        // ==========================================
+        // 2. LÓGICA DE AGREGAR ANIME
+        // ==========================================
+        document.getElementById('form-agregar').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-add');
+            const msg = document.getElementById('mensaje-add');
+            
+            btn.disabled = true;
+            msg.style.color = '#ff9800';
+            msg.textContent = "Guardando...";
+
+            const formData = new FormData();
+            formData.append('titulo', document.getElementById('add-titulo').value);
+            formData.append('genero', document.getElementById('add-genero').value);
+            formData.append('sinopsis', document.getElementById('add-sinopsis').value);
+            formData.append('portada', document.getElementById('add-portada').value);
+            formData.append('numero_ep', document.getElementById('add-num-ep').value);
+            formData.append('servidor', document.getElementById('add-servidor').value);
+            formData.append('enlace_video', document.getElementById('add-video').value);
+
+            fetch(`${apiBaseUrl}/admin/agregar_anime`, { method: 'POST', body: formData })
+            .then(res => res.json())
+            .then(data => {
+                msg.style.color = '#4CAF50';
+                msg.textContent = data.mensaje;
+                document.getElementById('form-agregar').reset();
+                btn.disabled = false;
+                cargarCatalogo(); // Recargamos la lista automáticamente
+                setTimeout(() => msg.textContent = '', 3000);
+            })
+            .catch(error => {
+                msg.style.color = '#F44336';
+                msg.textContent = "Error de conexión.";
+                btn.disabled = false;
+            });
+        });
+
+        // ==========================================
+        // 3. LÓGICA DEL MODAL DE EDICIÓN
+        // ==========================================
+        const modal = document.getElementById('modal-editar');
+
+        // Función para inyectar los datos en el modal y mostrarlo
+        function abrirModal(id, titulo, genero, sinopsis, portada) {
+            document.getElementById('edit-id').value = id;
+            document.getElementById('edit-titulo').value = titulo;
+            document.getElementById('edit-genero').value = genero;
+            document.getElementById('edit-sinopsis').value = sinopsis;
+            document.getElementById('edit-portada').value = portada;
+            
+            // AQUI LIMPIAMOS LOS CAMPOS DE EPISODIO AL ABRIR
+            document.getElementById('edit-num-ep').value = '';
+            document.getElementById('edit-servidor').value = '';
+            document.getElementById('edit-video').value = '';
+            
+            modal.style.display = 'flex';
+        }
+
+        // Función para ocultar el modal
+        function cerrarModal() {
+            modal.style.display = 'none';
+            document.getElementById('mensaje-edit').textContent = '';
+        }
+
+        // Enviar la edición a Python
+        document.getElementById('form-editar').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const btn = document.getElementById('btn-submit-edit');
+            const msg = document.getElementById('mensaje-edit');
+            const idAnime = document.getElementById('edit-id').value;
+
+            btn.disabled = true;
+            msg.style.color = '#ff9800';
+            msg.textContent = "Actualizando...";
+
+            const formData = new FormData();
+            formData.append('titulo', document.getElementById('edit-titulo').value);
+            formData.append('genero', document.getElementById('edit-genero').value);
+            formData.append('sinopsis', document.getElementById('edit-sinopsis').value);
+            formData.append('portada', document.getElementById('edit-portada').value);
+
+            // AQUI RECOGEMOS Y ENVIAMOS LOS NUEVOS DATOS DEL EPISODIO
+            const numEp = document.getElementById('edit-num-ep').value;
+            const servidor = document.getElementById('edit-servidor').value;
+            const video = document.getElementById('edit-video').value;
+
+            if (numEp) formData.append('numero_ep', numEp);
+            if (servidor) formData.append('servidor', servidor);
+            if (video) formData.append('enlace_video', video);
+
+            fetch(`${apiBaseUrl}/admin/editar_anime/${idAnime}`, { 
+                method: 'PUT', 
+                body: formData 
+            })
+            .then(async res => {
+                const data = await res.json();
+                if (!res.ok) throw new Error("Error al actualizar");
+                return data;
+            })
+            .then(data => {
+                msg.style.color = '#4CAF50';
+                msg.textContent = data.mensaje;
+                btn.disabled = false;
+                cargarCatalogo(); // Recargamos la lista para ver los cambios
+                
+                // Cerramos el modal automáticamente después de 1 segundo
+                setTimeout(() => {
+                    cerrarModal();
+                }, 1000);
+            })
+            .catch(error => {
+                msg.style.color = '#F44336';
+                // Si el servidor se cayó dice "Failed to fetch", si no, muestra el error real de Python
+                msg.textContent = error.message === "Failed to fetch" ? "El servidor Python está apagado o reiniciándose." : error.message;
+                btn.disabled = false;
+            });
+        });
+    </script>
+    
+    
+    <!-- Archivo JS para la cabecera (cerrar sesión) -->
+    <script src="js/main.js"></script>
+
+</body>
+</html>

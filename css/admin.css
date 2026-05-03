@@ -1,0 +1,192 @@
+/* =========================================
+   DISEÑO DEL PANEL DE ADMINISTRACIÓN
+========================================= */
+
+/* Estructura a dos columnas */
+.admin-layout { 
+    max-width: 1200px; 
+    margin: 40px auto; 
+    padding: 0 20px; 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 40px; 
+}
+
+/* Tarjetas oscuras del panel */
+.admin-card { 
+    background-color: #1a1a1a; 
+    padding: 30px; 
+    border-radius: 12px; 
+    border-top: 4px solid #ff6b00; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.5); 
+}
+
+.admin-card h2 { 
+    color: white; 
+    margin-bottom: 20px; 
+    font-size: 1.5rem; 
+    border-bottom: 1px solid #333; 
+    padding-bottom: 10px; 
+}
+
+/* Formularios */
+.form-group { margin-bottom: 15px; }
+
+.form-group label { 
+    display: block; 
+    color: #ccc; 
+    font-size: 0.85rem; 
+    font-weight: bold; 
+    margin-bottom: 5px; 
+    text-transform: uppercase; 
+}
+
+.form-group input, 
+.form-group textarea { 
+    width: 100%; 
+    padding: 12px; 
+    background: #242424; 
+    border: 1px solid #333; 
+    color: white; 
+    border-radius: 6px; 
+    outline: none; 
+}
+
+.form-group input:focus, 
+.form-group textarea:focus { 
+    border-color: #ff6b00; 
+}
+
+/* Botón principal de guardar */
+.btn-submit { 
+    background: #ff6b00; 
+    color: white; 
+    border: none; 
+    padding: 12px 20px; 
+    width: 100%; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    transition: 0.3s; 
+    text-transform: uppercase; 
+}
+
+.btn-submit:hover { 
+    background: #e66000; 
+    transform: translateY(-2px); 
+}
+
+/* =========================================
+   LISTA DE ANIMES (Catálogo)
+========================================= */
+.anime-list { 
+    max-height: 600px; 
+    overflow-y: auto; 
+    padding-right: 10px; 
+}
+
+.anime-item { 
+    display: flex; 
+    align-items: center; 
+    background: #242424; 
+    padding: 15px; 
+    border-radius: 8px; 
+    margin-bottom: 15px; 
+    border-left: 3px solid transparent; 
+    transition: 0.3s; 
+}
+
+.anime-item:hover { 
+    border-left-color: #ff6b00; 
+    background: #2a2a2a; 
+}
+
+.anime-item img { 
+    width: 60px; 
+    height: 85px; 
+    object-fit: cover; 
+    border-radius: 4px; 
+    margin-right: 15px; 
+}
+
+.anime-info { flex-grow: 1; }
+.anime-info h4 { color: white; margin: 0 0 5px 0; font-size: 1.1rem; }
+.anime-info p { color: #888; margin: 0; font-size: 0.85rem; }
+
+/* Botón de editar verde */
+.btn-edit { 
+    background: #4CAF50; 
+    color: white; 
+    border: none; 
+    padding: 8px 15px; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    font-weight: bold; 
+}
+
+.btn-edit:hover { background: #45a049; }
+
+/* =========================================
+   VENTANA MODAL (Pop-up de Edición)
+========================================= */
+.modal-overlay { 
+    display: none; 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%; 
+    background: rgba(0,0,0,0.85); 
+    z-index: 1000; 
+    justify-content: center; 
+    align-items: center; 
+    backdrop-filter: blur(5px); 
+}
+
+.modal-content { 
+    background: #1a1a1a; 
+    padding: 30px; 
+    border-radius: 12px; 
+    width: 90%; 
+    max-width: 500px; 
+    border: 1px solid #ff6b00; 
+    position: relative; 
+}
+
+.btn-cancel { 
+    background: transparent; 
+    color: #ccc; 
+    border: 1px solid #555; 
+    padding: 12px 20px; 
+    width: 100%; 
+    border-radius: 6px; 
+    font-weight: bold; 
+    cursor: pointer; 
+    margin-top: 10px; 
+}
+
+.btn-cancel:hover { 
+    background: #333; 
+    color: white; 
+}
+
+/* =========================================
+   NUEVOS CAMPOS DEL MODAL (Episodios)
+========================================= */
+.modal-divider {
+    color: white; 
+    margin: 20px 0 10px; 
+    font-size: 1rem; 
+    border-top: 1px solid #333; 
+    padding-top: 15px;
+}
+
+.modal-grid {
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px;
+}
+
+.form-group-last {
+    margin-bottom: 25px;
+}

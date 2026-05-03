@@ -1,0 +1,165 @@
+/* =========================================
+   ESTILOS EXCLUSIVOS DEL REPRODUCTOR
+========================================= */
+.player-main {
+    padding: 2rem 5%;
+    min-height: calc(100vh - 160px);
+}
+
+.player-container {
+    display: flex;
+    gap: 20px;
+    max-width: 1400px;
+    margin: 0 auto;
+    align-items: flex-start;
+}
+
+/* --- ZONA DEL VIDEO --- */
+.video-section {
+    flex: 3;
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.5);
+}
+
+.video-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.video-header h2 {
+    color: white;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.btn-directory {
+    background: #333;
+    color: white;
+    padding: 8px 15px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.btn-directory:hover {
+    background: #ff6b00;
+}
+
+.video-wrapper {
+    position: relative;
+    padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+    height: 0;
+    overflow: hidden;
+    border-radius: 5px;
+    background: #000;
+}
+
+.video-wrapper iframe {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+/* --- CONTROLES Y SERVIDORES --- */
+.video-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 15px;
+    background: #111;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.btn-nav {
+    color: #ff6b00;
+    text-decoration: none;
+    border: 1px solid #ff6b00;
+    padding: 5px 10px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.btn-nav:hover {
+    background: #ff6b00;
+    color: white;
+}
+
+.server-list {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    color: white;
+}
+
+.btn-server {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.btn-server.active, .btn-server:hover {
+    background: #ff6b00;
+}
+
+/* --- BARRA LATERAL (EPISODIOS) --- */
+.episodes-sidebar {
+    flex: 1;
+    background: #1e1e1e;
+    border-radius: 8px;
+    padding: 20px;
+    min-width: 300px;
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.episodes-sidebar h3 {
+    color: white;
+    margin-top: 0;
+    border-bottom: 1px solid #333;
+    padding-bottom: 10px;
+}
+
+.ep-item {
+    display: flex;
+    gap: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    text-decoration: none;
+    color: white;
+    margin-bottom: 10px;
+    background: #2a2a2a;
+    transition: 0.3s;
+}
+
+.ep-item:hover, .ep-item.active {
+    background: #3a3a3a;
+    border-left: 4px solid #ff6b00;
+}
+
+.ep-item img {
+    width: 60px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.ep-info h4 {
+    margin: 5px 0 0 0;
+    color: #ff9800;
+}

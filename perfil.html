@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - Xureja Anime</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+
+    <!-- CABECERA -->
+    <header class="main-header">
+        <div class="logo">
+            <a href="index.html" class="logo-link"><h1 class="logo-title">Xureja <span>Anime</span></h1></a>
+        </div>
+        <nav class="nav-menu">
+            <a href="index.html">Inicio</a>
+            <a href="directorio.html">Directorio</a>
+            <a href="mi_lista.html">Mi Lista</a>
+        </nav>
+        <div class="header-actions">
+            <!-- Menú de Perfil -->
+            <div id="user-profile-menu" class="user-menu-container">
+                <img src="" alt="Avatar" class="user-avatar" id="user-avatar-img">
+                <span class="user-greeting">Hola, <span id="nav-username" class="highlight-text">Usuario</span></span>
+                <div class="user-dropdown">
+                    <a href="perfil.html" class="active-link">Mi Perfil</a>
+                    <a href="mi_lista.html">Mi Colección</a>
+                    <a href="#" id="btn-logout-dropdown" class="logout-btn">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTENIDO PRINCIPAL -->
+    <main>
+        <div class="profile-container">
+            <!-- Columna Izquierda: Foto y Nombre -->
+            <div class="profile-sidebar">
+                <img src="" alt="Avatar" class="profile-avatar-large" id="preview-avatar">
+                <h2 id="profile-username" class="profile-username">Cargando...</h2>
+            </div>
+            
+            <!-- Columna Derecha: Formulario -->
+            <div class="profile-content">
+                <h3 class="profile-section-title">Editar Perfil</h3>
+                
+                <form id="form-perfil">
+                    <div class="profile-form-group">
+                        <label for="input-avatar">URL de tu Avatar (Opcional):</label>
+                        <input type="text" id="input-avatar" placeholder="https://ejemplo.com/mifoto.jpg">
+                        <small class="form-help-text">Déjalo en blanco para usar tu avatar aleatorio de aventurero.</small>
+                    </div>
+                    
+                    <div class="profile-form-group">
+                        <label for="input-bio">Sobre Mí (Biografía):</label>
+                        <textarea id="input-bio" placeholder="¡Cuéntanos sobre tus animes favoritos!"></textarea>
+                    </div>
+                    
+                    <button type="submit" class="btn-primary-full">Guardar Cambios</button>
+                    
+                    <p id="profile-msg" class="profile-msg"></p>
+                </form>
+            </div>
+        </div>
+    </main>
+
+    <script src="js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const usuarioActual = localStorage.getItem('usuarioXureja');
+            if (!usuarioActual) {
+                window.location.href = 'login.html'; 
+                return;
+            }
+
+            document.getElementById('profile-username').textContent = usuarioActual;
+            const previewAvatar = document.getElementById('preview-avatar');
+            const inputAvatar = document.getElementById('input-avatar');
+            const inputBio = document.getElementById('input-bio');
+            const msg = document.getElementById('profile-msg');
+            
+            const avatarPorDefecto = `https://api.dicebear.com/7.x/adventurer/svg?seed=${usuarioActual}&backgroundColor=ff6b00`;
+
+            // 1. Cargar datos actuales
+            fetch(`http://127.0.0.1:8000/api/perfil/${usuarioActual}`)
+                .then(res => res.json())
+                .then(data => {
+                    inputBio.value = data.biografia;
+                    inputAvatar.value = data.avatar_url;
+                    
+                    if (data.avatar_url && data.avatar_url.trim() !== "") {
+                        previewAvatar.src = data.avatar_url;
+                    } else {
+                        previewAvatar.src = avatarPorDefecto;
+                    }
+                });
+
+            // 2. Efecto visual: cambiar el avatar al pegar un link nuevo
+            inputAvatar.addEventListener('input', () => {
+                const nuevaUrl = inputAvatar.value.trim();
+                previewAvatar.src = nuevaUrl !== "" ? nuevaUrl : avatarPorDefecto;
+            });
+
+            // 3. Guardar cambios
+            document.getElementById('form-perfil').addEventListener('submit', (e) => {
+                e.preventDefault();
+                
+                // Limpiamos clases previas y mostramos estado de carga
+                msg.className = 'profile-msg msg-loading';
+                msg.textContent = '⏳ Guardando...';
+
+                const formData = new FormData();
+                formData.append('username', usuarioActual);
+                formData.append('biografia', inputBio.value);
+                formData.append('avatar_url', inputAvatar.value);
+
+                fetch('http://127.0.0.1:8000/api/perfil/actualizar', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(res => res.json())
+                .then(data => {
+                    msg.className = 'profile-msg msg-success';
+                    msg.textContent = data.mensaje;
+                    
+                    // Recargamos la página después de 1 segundo para que el Header también se actualice
+                    setTimeout(() => window.location.reload(), 1000);
+                })
+                .catch(() => {
+                    msg.className = 'profile-msg msg-error';
+                    msg.textContent = '❌ Error al guardar.';
+                });
+            });
+        });
+    </script>
+</body>
+</html>

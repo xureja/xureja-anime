@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tu Plataforma de Anime</title>
+    <!-- Asegúrate de que el nombre coincida con tu archivo (styles.css o style.css) -->
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+
+    <!-- CABECERA: Navegación principal -->
+    <header class="main-header">
+        <div class="logo">
+            <a href="index.html" style="text-decoration: none;">
+                <h1 style="color: white; font-size: 1.8rem; margin: 0;">Xureja <span style="color: #ff6b00;">Anime</span></h1>
+            </a>
+        </div>
+        
+        <nav class="nav-menu">
+            <a href="index.html">Inicio</a>
+            <a href="directorio.html">Directorio</a>
+            <a href="mi_lista.html">Mi Lista</a>
+            
+            <!-- ENLACE ADMIN (JS LO MUESTRA) -->
+            <a href="admin.html" id="nav-admin" class="nav-admin-link">Panel Admin 👑</a>
+        </nav>
+        
+        <div class="header-actions">
+            <div class="search-bar">
+                <input type="text" placeholder="Buscar anime...">
+            </div>
+            
+            <!-- ZONA DE AUTENTICACIÓN -->
+        <div class="header-auth">
+            <!-- Botón normal (Aparece si NO hay sesión) -->
+            <a href="login.html" id="btn-login-header" class="btn-login">Iniciar Sesión</a>
+            
+            <!-- Perfil Desplegable (Aparece si SÍ hay sesión) -->
+            <div id="user-profile-menu" class="user-menu-container">
+                <img src="" alt="Avatar" class="user-avatar" id="user-avatar-img">
+                <span class="user-greeting">Hola, <span id="nav-username" style="color: #ff6b00;">Usuario</span></span>
+                
+                <div class="user-dropdown">
+                    <a href="perfil.html">Mi Perfil</a>
+                    <a href="mi_lista.html">Mi Colección</a>
+                    <a href="#" id="btn-logout-dropdown" class="logout-btn">Cerrar Sesión</a>
+                </div>
+            </div>
+        </div>
+        </div>
+    </header>
+   
+    <main>
+        <!-- HERO: Banner destacado dinámico -->
+        <section class="hero" id="hero-banner" style="transition: all 0.5s ease-in-out;">
+            <div class="hero-content">
+                <h1 id="hero-title">Cargando estrenos...</h1>
+                <p id="hero-synopsis">Preparando los mejores animes para ti.</p>
+                <a id="hero-link" href="#" style="text-decoration: none;">
+                    <button style="cursor: pointer;">Ver Primer Episodio</button>
+                </a>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 1 (ARRIBA): RECOMENDACIONES DE ANIMES -->
+        <section class="latest-animes">
+            <h2 style="border-left: 4px solid #ff6b00; padding-left: 10px; margin-bottom: 20px;">Nuestras Recomendaciones</h2>
+            <!-- Usamos tarjetas verticales (anime-card) -->
+            <div class="grid-animes" id="recomendaciones-inicio">
+                <p style="color: #aaa; text-align: center; width: 100%;">Cargando recomendaciones...</p>
+            </div>
+        </section>
+
+        <!-- SECCIÓN 2 (ABAJO): ÚLTIMOS CAPÍTULOS AÑADIDOS -->
+        <section class="latest-episodes" style="margin-top: 40px;">
+            <h2 style="border-left: 4px solid #ff6b00; padding-left: 10px; margin-bottom: 20px;">Últimos Capítulos Añadidos</h2>
+            <!-- Usamos tarjetas horizontales (episode-card) -->
+            <div class="grid-episodes" id="episodios-inicio">
+                <p style="color: #aaa; text-align: center; width: 100%;">Cargando capítulos...</p>
+            </div>
+        </section>
+        <section class="section-container">
+            <h2 class="section-title-top">🔥 Top Tendencias</h2>
+            <div class="grid-animes" id="top-tendencias">
+                <p class="loading-text">Cargando las series más populares...</p>
+            </div>
+        </section>
+    </main>
+
+    <!-- PIE DE PÁGINA (Footer) -->
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 Tu Plataforma de Anime. Ningún vídeo se encuentra alojado en nuestros servidores.</p>
+            <ul class="footer-links">
+                <li><a href="#">Términos de servicio</a></li>
+                <li><a href="#">Política de privacidad</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+        </div>
+    </footer>
+
+    <!-- SCRIPT PRINCIPAL -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>

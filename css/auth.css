@@ -1,0 +1,114 @@
+/* =========================================
+   ESTILOS PARA LOGIN Y REGISTRO
+========================================= */
+.auth-wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px); /* Resta la altura del header */
+    padding: 40px 20px;
+}
+
+.auth-container {
+    background-color: #1a1a1a;
+    width: 100%;
+    max-width: 400px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8);
+    text-align: center;
+}
+
+.auth-container h2 {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.auth-container p {
+    color: #aaa;
+    margin-bottom: 30px;
+    font-size: 0.95rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.auth-form label {
+    color: #ccc;
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: bold;
+}
+
+.auth-form input {
+    background-color: #242424;
+    border: 1px solid #333;
+    color: white;
+    padding: 14px 15px;
+    border-radius: 8px;
+    font-size: 1rem;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+}
+
+.auth-form input:focus {
+    outline: none;
+    border-color: #ff6b00;
+    box-shadow: 0 0 0 3px rgba(255, 107, 0, 0.2);
+    background-color: #2a2a2a;
+}
+
+.btn-auth {
+    background-color: #ff6b00;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 8px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-top: 10px;
+}
+
+.btn-auth:hover {
+    background-color: #e66000;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 107, 0, 0.4);
+}
+
+.auth-links {
+    margin-top: 25px;
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.auth-links a {
+    color: #ff6b00;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.3s;
+}
+
+.auth-links a:hover {
+    color: #e66000;
+    text-decoration: underline;
+}
+
+/* Mensaje temporal de alerta */
+.auth-alert {
+    display: none;
+    margin-top: 15px;
+    padding: 10px;
+    border-radius: 5px;
+    font-weight: bold;
+    font-size: 0.9rem;
+}
