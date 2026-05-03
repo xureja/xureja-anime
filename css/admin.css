@@ -190,3 +190,28 @@
 .form-group-last {
     margin-bottom: 25px;
 }
+
+/* 📱 DISEÑO MÓVIL PARA EL PANEL ADMIN */
+@media (max-width: 768px) {
+    /* Busca la clase del contenedor que envuelve tus dos cajas.
+       Cámbiale el nombre a la clase que tú estés usando si es diferente */
+    .admin-container { 
+        display: flex;
+        flex-direction: column; /* Esto obliga a que se pongan uno debajo del otro */
+        padding: 10px;
+    }
+
+    /* Obligamos a que las cajas hijas ocupen el 100% del ancho del celular */
+    .admin-container > div,
+    .admin-form-section,
+    .admin-catalog-section {
+        width: 100% !important;
+        margin-bottom: 25px;
+    }
+
+    /* Ajustamos los inputs para que no se salgan de la pantalla */
+    input, textarea, select {
+        width: 100% !important;
+        box-sizing: border-box; /* Evita que el padding ensanche el input */
+    }
+}

@@ -776,3 +776,37 @@ footer p { color: #888; font-size: 0.9rem; }
     font-weight: bold;
     z-index: 5;
 }
+
+
+/* =========================================
+   📱 DISEÑO PARA CELULARES (RESPONSIVE)
+========================================= */
+@media (max-width: 768px) {
+    /* 1. La cabecera se apila en vertical */
+    .main-header {
+        flex-direction: column;
+        padding: 15px;
+        gap: 15px;
+        height: auto;
+    }
+    
+    /* 2. El menú se adapta y baja de línea si es necesario */
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 15px;
+        text-align: center;
+    }
+
+    /* 3. El buscador y el perfil ocupan todo el ancho */
+    .header-actions {
+        width: 100%;
+        justify-content: center;
+        margin-top: 10px;
+    }
+
+    /* 4. Reducimos el padding lateral general de la página */
+    .section-container {
+        padding: 0 15px !important; 
+    }
+}
