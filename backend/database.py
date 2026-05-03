@@ -1,7 +1,7 @@
 import os
-from sqlalchemy import create_engine
+from sqlalchemy import create_engine, Column, Integer, String, Boolean, ForeignKey, Text
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, relationship
 
 # 1. Buscamos la URL de la base de datos de Render. 
 # Si no existe (estás en tu PC), usamos la local xureja.db
