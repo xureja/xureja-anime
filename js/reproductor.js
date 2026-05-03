@@ -1,7 +1,7 @@
 // ==========================================
 // LÓGICA DEL REPRODUCTOR DE VIDEO
 // ==========================================
-const apiBaseUrl = 'http://127.0.0.1:8000/api';
+const apiBaseUrl = 'https://xureja-backend.onrender.com/api';
 
 // 1. Inicialización al cargar la página
 document.addEventListener('DOMContentLoaded', () => {

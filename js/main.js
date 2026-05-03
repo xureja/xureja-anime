@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', () => {
     if (gridAnimes) {
         const params = new URLSearchParams(window.location.search);
         const searchQuery = params.get('search');
-        let urlFetch = 'http://127.0.0.1:8000/api/inicio/animes'; 
+        let urlFetch = 'https://xureja-backend.onrender.com/api/inicio/animes'; 
         
         if (searchQuery) {
-            urlFetch = `http://127.0.0.1:8000/api/buscar/${encodeURIComponent(searchQuery)}`;
+            urlFetch = `https://xureja-backend.onrender.com/api/buscar/${encodeURIComponent(searchQuery)}`;
         }
 
         fetch(urlFetch)
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const heroLink = document.getElementById('hero-link');
     
     if (recomendacionesInicio && episodiosInicio) {
-        fetch('http://127.0.0.1:8000/api/inicio/animes')
+        fetch('https://xureja-backend.onrender.com/api/inicio/animes')
             .then(res => res.json())
             .then(animes => {
                 recomendacionesInicio.innerHTML = ''; 
@@ -162,7 +162,7 @@ document.addEventListener('DOMContentLoaded', () => {
             loadingMessage.textContent = "Error: No se especificó el anime en la URL.";
             loadingMessage.style.color = "red";
         } else {
-            fetch(`http://127.0.0.1:8000/api/anime/${encodeURIComponent(animeName)}`)
+            fetch(`https://xureja-backend.onrender.com/api/anime/${encodeURIComponent(animeName)}`)
             .then(res => {
                 if (!res.ok) throw new Error("Anime no encontrado en la base de datos");
                 return res.json();
@@ -184,7 +184,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     btnFav.style.display = 'inline-block'; // Mostramos el botón
                     
                     // 1. Al cargar, preguntamos a Python si ya es favorito
-                    fetch(`http://127.0.0.1:8000/api/favoritos/check/${usuarioActual}/${data.id}`)
+                    fetch(`https://xureja-backend.onrender.com/api/favoritos/check/${usuarioActual}/${data.id}`)
                         .then(r => r.json())
                         .then(favData => {
                             if (favData.es_favorito) {
@@ -201,7 +201,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
                         btnFav.innerHTML = '⏳ Cargando...';
 
-                        fetch('http://127.0.0.1:8000/api/favoritos/toggle', {
+                        fetch('https://xureja-backend.onrender.com/api/favoritos/toggle', {
                             method: 'POST',
                             body: formData
                         })
@@ -321,7 +321,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const contenedorTop = document.getElementById('top-tendencias');
     
     if (contenedorTop) {
-        fetch('http://127.0.0.1:8000/api/inicio/top-tendencias')
+        fetch('https://xureja-backend.onrender.com/api/inicio/top-tendencias')
             .then(res => res.json())
             .then(animes => {
                 contenedorTop.innerHTML = '';

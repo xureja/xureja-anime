@@ -83,7 +83,7 @@
             const avatarPorDefecto = `https://api.dicebear.com/7.x/adventurer/svg?seed=${usuarioActual}&backgroundColor=ff6b00`;
 
             // 1. Cargar datos actuales
-            fetch(`http://127.0.0.1:8000/api/perfil/${usuarioActual}`)
+            fetch(`https://xureja-backend.onrender.com/api/perfil/${usuarioActual}`)
                 .then(res => res.json())
                 .then(data => {
                     inputBio.value = data.biografia;
@@ -115,7 +115,7 @@
                 formData.append('biografia', inputBio.value);
                 formData.append('avatar_url', inputAvatar.value);
 
-                fetch('http://127.0.0.1:8000/api/perfil/actualizar', {
+                fetch('https://xureja-backend.onrender.com/api/perfil/actualizar', {
                     method: 'POST',
                     body: formData
                 })
