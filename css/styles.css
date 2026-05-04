@@ -936,3 +936,57 @@ html, body {
         padding-bottom: 0 !important;
     }
 }
+
+/* =========================================
+   📱 MODO CELULAR: BANNER / CARRUSEL PRINCIPAL
+========================================= */
+@media (max-width: 768px) {
+    /* 1. Ajustamos la altura y los márgenes del banner */
+    .hero, 
+    #hero-banner {
+        height: auto !important;
+        min-height: 350px !important;
+        padding: 40px 15px !important;
+        background-position: center !important;
+    }
+
+    /* 2. Centramos el contenido para que se vea más ordenado en móvil */
+    .hero-content {
+        width: 100% !important;
+        max-width: 100% !important;
+        text-align: center !important;
+        padding: 0 !important;
+    }
+
+    /* 3. Achicamos el título gigante */
+    .hero-content h1, 
+    #hero-title {
+        font-size: 2.2rem !important; /* Letra más razonable */
+        line-height: 1.1 !important;
+        margin-bottom: 15px !important;
+        word-wrap: break-word !important;
+    }
+
+    /* 4. Ajustamos la sinopsis */
+    .hero-content p, 
+    #hero-synopsis {
+        font-size: 0.95rem !important;
+        line-height: 1.4 !important;
+        margin-bottom: 25px !important;
+        /* Limitamos las líneas para que una sinopsis larga no tape todo */
+        display: -webkit-box !important;
+        -webkit-line-clamp: 4 !important;
+        -webkit-box-orient: vertical !important;
+        overflow: hidden !important;
+    }
+
+    /* 5. Acomodamos el botón para que sea fácil de presionar */
+    .hero-content button {
+        width: 100% !important;
+        max-width: 280px !important;
+        padding: 12px 20px !important;
+        font-size: 1rem !important;
+        margin: 0 auto !important; /* Esto lo centra */
+        display: block !important;
+    }
+}
