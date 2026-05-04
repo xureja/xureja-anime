@@ -286,7 +286,7 @@ def obtener_mi_lista(username: str, db: Session = Depends(get_db)):
 # ==========================================
 # RUTA 10: ELIMINAR ANIME (PANEL ADMIN)
 # ==========================================
-@app.delete("/api/admin/anime/{anime_id}")
+@app.delete("/api/admin/eliminar_anime/{anime_id}") # <-- ¡Cambiamos esto!
 def eliminar_anime(anime_id: int, db: Session = Depends(get_db)):
     # 1. Buscamos el anime
     anime = db.query(Anime).filter(Anime.id == anime_id).first()
