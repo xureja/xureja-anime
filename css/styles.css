@@ -930,3 +930,29 @@ html, body {
         padding: 50px 15px !important;
     }
 }
+
+/* =========================================
+   📱 MODO CELULAR: ELIMINAR HUECO BAJO EL PERFIL
+========================================= */
+@media (max-width: 768px) {
+    /* 1. Le quitamos el relleno excesivo a la base de la cabecera */
+    .main-header {
+        padding-bottom: 10px !important;
+        margin-bottom: 0 !important;
+    }
+
+    /* 2. Aseguramos que el perfil no tenga márgenes invisibles empujando hacia abajo */
+    .header-auth,
+    .user-menu-container {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* 3. Subimos el banner para que choque exactamente con la línea naranja */
+    .hero, 
+    #hero-banner,
+    main {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+}
