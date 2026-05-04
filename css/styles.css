@@ -907,3 +907,32 @@ html, body {
         word-wrap: break-word !important;
     }
 }
+
+/* =========================================
+   📱 REDUCIR ESPACIOS GIGANTES EN CELULAR
+========================================= */
+@media (max-width: 768px) {
+    /* 1. Comprimir las separaciones entre secciones */
+    section, 
+    .latest-animes, 
+    .hero,
+    .section-container {
+        margin-top: 20px !important;
+        margin-bottom: 25px !important; /* Reduce el abismo a solo 25px */
+        padding-top: 0 !important;
+        padding-bottom: 0 !important;
+    }
+
+    /* 2. Acercar los títulos a sus tarjetas */
+    h2 {
+        margin-top: 10px !important;
+        margin-bottom: 15px !important;
+    }
+
+    /* 3. Asegurar que las tarjetas no tengan márgenes invisibles hacia abajo */
+    .grid-animes, 
+    #recomendaciones-inicio {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+}
