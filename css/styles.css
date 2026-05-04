@@ -862,3 +862,48 @@ html, body {
         max-width: 100% !important;
     }
 }
+
+/* =========================================
+   📱 MODO CELULAR: INICIO Y RECOMENDACIONES
+========================================= */
+@media (max-width: 768px) {
+    /* 1. Convertimos el contenedor en una cuadrícula de 2 columnas */
+    /* (En tu primera captura vi que usas la clase .grid-animes) */
+    .grid-animes, 
+    #recomendaciones-inicio {
+        display: grid !important;
+        grid-template-columns: repeat(2, 1fr) !important; /* Crea 2 columnas iguales */
+        gap: 15px !important;
+        padding: 0 10px !important;
+        justify-content: center;
+    }
+
+    /* 2. Ajustamos las tarjetas para que encajen perfecto en su columna */
+    .anime-card, 
+    .tarjeta-anime {
+        width: 100% !important;
+        margin: 0 !important;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* 3. Controlamos el tamaño exacto de la portada */
+    .anime-card img, 
+    .tarjeta-anime img {
+        width: 100% !important;
+        height: 220px !important; /* Altura fija para que todas las portadas se vean parejas */
+        object-fit: cover !important; /* Recorta la imagen sin aplastarla ni deformarla */
+        border-radius: 8px !important;
+    }
+
+    /* 4. Achicamos un poco el título para que no se salga de la tarjeta */
+    .anime-card h3, 
+    .tarjeta-anime h3,
+    .anime-card span {
+        font-size: 0.95rem !important;
+        text-align: center;
+        margin-top: 8px;
+        word-wrap: break-word !important;
+    }
+}
