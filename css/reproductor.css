@@ -163,3 +163,54 @@
     margin: 5px 0 0 0;
     color: #ff9800;
 }
+
+
+/* =========================================
+   📱 MODO CELULAR: REPRODUCTOR
+========================================= */
+@media (max-width: 768px) {
+    /* 1. Obligamos al contenedor principal a apilarse (video arriba, lista abajo) */
+    /* 👇 Cambia '.reproductor-layout' por la clase que envuelva tus dos columnas */
+    .reproductor-layout, 
+    .reproductor-container,
+    main { 
+        display: flex !important;
+        flex-direction: column !important;
+        width: 100% !important;
+        padding: 10px !important;
+        gap: 20px !important; /* Espacio entre el video y la lista */
+    }
+
+    /* 2. El área del video y la barra lateral deben ocupar todo el ancho */
+    .video-section,
+    .episodes-sidebar,
+    .reproductor-layout > div,
+    .reproductor-layout > aside {
+        width: 100% !important;
+        min-width: 0 !important;
+        margin: 0 !important;
+    }
+
+    /* 3. Ajustar el iframe (El video de Mega) para que no se desborde */
+    .video-player iframe,
+    .video-container iframe,
+    iframe {
+        width: 100% !important;
+        height: 250px !important; /* Altura ideal para que se vea bien en celular */
+        max-width: 100% !important;
+        border-radius: 8px;
+    }
+
+    /* 4. Evitar que el título largo rompa la pantalla */
+    h2, h3 {
+        word-wrap: break-word !important;
+        font-size: 1.4rem !important;
+    }
+
+    /* 5. Acomodar los botones de "Episodio Anterior/Siguiente" */
+    .video-controls {
+        flex-direction: column !important;
+        gap: 10px;
+        align-items: center !important;
+    }
+}
