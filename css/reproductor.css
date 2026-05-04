@@ -169,48 +169,57 @@
    📱 MODO CELULAR: REPRODUCTOR
 ========================================= */
 @media (max-width: 768px) {
-    /* 1. Obligamos al contenedor principal a apilarse (video arriba, lista abajo) */
-    /* 👇 Cambia '.reproductor-layout' por la clase que envuelva tus dos columnas */
-    .reproductor-layout, 
-    .reproductor-container,
-    main { 
+    /* 1. Apilamos el video arriba y la lista abajo */
+    .player-container {
         display: flex !important;
         flex-direction: column !important;
         width: 100% !important;
         padding: 10px !important;
-        gap: 20px !important; /* Espacio entre el video y la lista */
+        gap: 20px !important; 
     }
 
-    /* 2. El área del video y la barra lateral deben ocupar todo el ancho */
+    /* 2. Hacemos que ambas columnas ocupen el 100% del ancho del celular */
     .video-section,
-    .episodes-sidebar,
-    .reproductor-layout > div,
-    .reproductor-layout > aside {
+    .episodes-sidebar {
         width: 100% !important;
-        min-width: 0 !important;
         margin: 0 !important;
+        min-width: 0 !important;
     }
 
-    /* 3. Ajustar el iframe (El video de Mega) para que no se desborde */
-    .video-player iframe,
-    .video-container iframe,
-    iframe {
+    /* 3. Ajustamos el iframe del video (Mega) para que no se salga de la pantalla */
+    .video-wrapper {
         width: 100% !important;
-        height: 250px !important; /* Altura ideal para que se vea bien en celular */
+    }
+    
+    .video-wrapper iframe {
+        width: 100% !important;
+        height: 250px !important; /* Altura perfecta para evitar bordes negros feos */
         max-width: 100% !important;
         border-radius: 8px;
     }
 
-    /* 4. Evitar que el título largo rompa la pantalla */
-    h2, h3 {
-        word-wrap: break-word !important;
-        font-size: 1.4rem !important;
+    /* 4. Achicamos un poco el título para que no empuje las cosas */
+    .video-header {
+        flex-direction: column !important;
+        gap: 15px;
+        align-items: flex-start !important;
     }
 
-    /* 5. Acomodar los botones de "Episodio Anterior/Siguiente" */
+    .video-header h2 {
+        font-size: 1.2rem !important;
+        word-wrap: break-word !important;
+    }
+
+    /* 5. Centramos los botones de anterior/siguiente y servidores */
     .video-controls {
-        flex-direction: column !important;
-        gap: 10px;
-        align-items: center !important;
+        flex-wrap: wrap !important;
+        justify-content: center !important;
+        gap: 15px !important;
+        text-align: center;
+    }
+
+    .server-list {
+        width: 100% !important;
+        justify-content: center !important;
     }
 }
