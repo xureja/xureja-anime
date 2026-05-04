@@ -286,7 +286,7 @@ def obtener_mi_lista(username: str, db: Session = Depends(get_db)):
 # ==========================================
 # RUTA 10: ELIMINAR ANIME (PANEL ADMIN)
 # ==========================================
-@app.delete("/api/admin/eliminar_anime/{anime_id}") # <-- ¡Cambiamos esto!
+@app.delete("/api/admin/eliminar_anime/{anime_id}")
 def eliminar_anime(anime_id: int, db: Session = Depends(get_db)):
     # 1. Buscamos el anime
     anime = db.query(Anime).filter(Anime.id == anime_id).first()
@@ -294,11 +294,18 @@ def eliminar_anime(anime_id: int, db: Session = Depends(get_db)):
     if not anime:
         return {"error": "Anime no encontrado"}
     
-    # 2. Limpieza de tablas relacionadas (Evita errores en la base de datos)
+    # 2. Primero borramos todos los Favoritos que la gente le haya dado a este anime
     db.query(Favorito).filter(Favorito.anime_id == anime_id).delete()
+    
+    # 3. Buscamos sus episodios y borramos todos los ENLACES (videos) que tengan dentro
+    episodios = db.query(Episodio).filter(Episodio.anime_id == anime_id).all()
+    for ep in episodios:
+        db.query(Enlace).filter(Enlace.episodio_id == ep.id).delete()
+        
+    # 4. Ahora sí, con los episodios vacíos, borramos los episodios
     db.query(Episodio).filter(Episodio.anime_id == anime_id).delete()
     
-    # 3. Golpe final: Eliminamos el anime
+    # 5. Golpe final: Eliminamos el anime
     db.delete(anime)
     db.commit()
     
