@@ -955,9 +955,6 @@ html, body {
         
         /* Quitamos bordes redondeados si los tiene para que toque el marco del celular */
         border-radius: 0 !important; 
-        
-        /* Un poco de espacio extra arriba y abajo */
-        padding: 50px 15px !important;
     }
 
 
