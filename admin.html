@@ -183,21 +183,26 @@
         const apiBaseUrl = 'https://xureja-backend.onrender.com/api';
 
         // ==========================================
-        // 1. CARGAR LA LISTA DE ANIMES AL ENTRAR
+        // 1. CARGAR CATÁLOGO Y ZONA DE PELIGRO
         // ==========================================
         function cargarCatalogo() {
             fetch(`${apiBaseUrl}/inicio/animes`)
                 .then(res => res.json())
                 .then(animes => {
                     const contenedor = document.getElementById('lista-animes');
+                    const contenedorPeligro = document.getElementById('lista-eliminar-animes');
+                    
                     contenedor.innerHTML = '';
+                    contenedorPeligro.innerHTML = '';
                     
                     if (animes.length === 0) {
                         contenedor.innerHTML = '<p style="color:#aaa;">No hay animes publicados aún.</p>';
+                        contenedorPeligro.innerHTML = '<p style="color:#aaa; text-align: center;">No hay animes publicados aún.</p>';
                         return;
                     }
 
                     animes.forEach(anime => {
+                        // 1. Dibujar en el Catálogo
                         contenedor.innerHTML += `
                             <div class="anime-item">
                                 <img src="${anime.portada}" alt="Portada">
@@ -205,9 +210,18 @@
                                     <h4>${anime.titulo}</h4>
                                     <p>${anime.genero}</p>
                                 </div>
-                                <!-- Pasamos todos los datos a la función de abrir modal -->
                                 <button class="btn-edit" onclick="abrirModal(${anime.id}, '${anime.titulo.replace(/'/g, "\\'")}', '${anime.genero.replace(/'/g, "\\'")}', '${anime.sinopsis.replace(/'/g, "\\'")}', '${anime.portada}')">
                                     Editar
+                                </button>
+                            </div>
+                        `;
+
+                        // 2. Dibujar en la Zona de Peligro
+                        contenedorPeligro.innerHTML += `
+                            <div style="display: flex; justify-content: space-between; align-items: center; background: #222; padding: 10px 15px; margin-bottom: 10px; border-radius: 8px; border: 1px solid #444;">
+                                <span style="color: white; font-weight: bold; font-size: 16px;">${anime.titulo}</span>
+                                <button onclick="eliminarAnime(${anime.id})" style="background-color: #dc3545; color: white; border: none; padding: 8px 12px; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                                    🗑️ Borrar
                                 </button>
                             </div>
                         `;
@@ -215,8 +229,28 @@
                 });
         }
 
-        // Cargamos la lista en cuanto abre la página
+        // Cargamos las listas en cuanto abre la página
         cargarCatalogo();
+
+        // ==========================================
+        // 1.5. FUNCIÓN PARA ELIMINAR ANIME
+        // ==========================================
+        function eliminarAnime(idAnime) {
+            if (confirm("⚠️ ¿Estás seguro de que quieres eliminar este anime? Esta acción borrará el anime y sus episodios, y no se puede deshacer.")) {
+                fetch(`${apiBaseUrl}/admin/eliminar_anime/${idAnime}`, {
+                    method: 'DELETE'
+                })
+                .then(res => res.json())
+                .then(data => {
+                    alert("Anime eliminado correctamente de la base de datos.");
+                    cargarCatalogo(); // Recarga automáticamente ambas listas
+                })
+                .catch(error => {
+                    alert("Error al intentar eliminar el anime.");
+                    console.error(error);
+                });
+            }
+        }
 
         // ==========================================
         // 2. LÓGICA DE AGREGAR ANIME
@@ -246,7 +280,7 @@
                 msg.textContent = data.mensaje;
                 document.getElementById('form-agregar').reset();
                 btn.disabled = false;
-                cargarCatalogo(); // Recargamos la lista automáticamente
+                cargarCatalogo(); // Actualiza ambas listas
                 setTimeout(() => msg.textContent = '', 3000);
             })
             .catch(error => {
@@ -261,7 +295,6 @@
         // ==========================================
         const modal = document.getElementById('modal-editar');
 
-        // Función para inyectar los datos en el modal y mostrarlo
         function abrirModal(id, titulo, genero, sinopsis, portada) {
             document.getElementById('edit-id').value = id;
             document.getElementById('edit-titulo').value = titulo;
@@ -269,7 +302,6 @@
             document.getElementById('edit-sinopsis').value = sinopsis;
             document.getElementById('edit-portada').value = portada;
             
-            // AQUI LIMPIAMOS LOS CAMPOS DE EPISODIO AL ABRIR
             document.getElementById('edit-num-ep').value = '';
             document.getElementById('edit-servidor').value = '';
             document.getElementById('edit-video').value = '';
@@ -277,13 +309,11 @@
             modal.style.display = 'flex';
         }
 
-        // Función para ocultar el modal
         function cerrarModal() {
             modal.style.display = 'none';
             document.getElementById('mensaje-edit').textContent = '';
         }
 
-        // Enviar la edición a Python
         document.getElementById('form-editar').addEventListener('submit', function(e) {
             e.preventDefault();
             const btn = document.getElementById('btn-submit-edit');
@@ -300,7 +330,6 @@
             formData.append('sinopsis', document.getElementById('edit-sinopsis').value);
             formData.append('portada', document.getElementById('edit-portada').value);
 
-            // AQUI RECOGEMOS Y ENVIAMOS LOS NUEVOS DATOS DEL EPISODIO
             const numEp = document.getElementById('edit-num-ep').value;
             const servidor = document.getElementById('edit-servidor').value;
             const video = document.getElementById('edit-video').value;
@@ -322,16 +351,14 @@
                 msg.style.color = '#4CAF50';
                 msg.textContent = data.mensaje;
                 btn.disabled = false;
-                cargarCatalogo(); // Recargamos la lista para ver los cambios
+                cargarCatalogo(); 
                 
-                // Cerramos el modal automáticamente después de 1 segundo
                 setTimeout(() => {
                     cerrarModal();
                 }, 1000);
             })
             .catch(error => {
                 msg.style.color = '#F44336';
-                // Si el servidor se cayó dice "Failed to fetch", si no, muestra el error real de Python
                 msg.textContent = error.message === "Failed to fetch" ? "El servidor Python está apagado o reiniciándose." : error.message;
                 btn.disabled = false;
             });
