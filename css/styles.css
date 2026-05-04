@@ -864,47 +864,49 @@ html, body {
 }
 
 /* =========================================
-   📱 MODO CELULAR: INICIO Y RECOMENDACIONES
+   📱 MODO CELULAR: CUADRÍCULA PERFECTA
 ========================================= */
 @media (max-width: 768px) {
-    /* 1. Convertimos el contenedor en una cuadrícula de 2 columnas */
-    /* (En tu primera captura vi que usas la clase .grid-animes) */
+    /* 1. Controlamos la grilla para que se alinee bien */
     .grid-animes, 
     #recomendaciones-inicio {
         display: grid !important;
-        grid-template-columns: repeat(2, 1fr) !important; /* Crea 2 columnas iguales */
-        gap: 15px !important;
-        padding: 0 10px !important;
-        justify-content: center;
+        grid-template-columns: repeat(2, 1fr) !important;
+        /* El primer número es el espacio vertical (arriba/abajo), el segundo el horizontal (lados) */
+        gap: 15px 10px !important; 
+        /* Obliga a que la 3ra tarjeta se ponga a la izquierda y no flote en el medio */
+        justify-items: center !important; 
+        align-items: start !important;
     }
 
-    /* 2. Ajustamos las tarjetas para que encajen perfecto en su columna */
+    /* 2. Limpiamos los márgenes fantasma de las tarjetas */
     .anime-card, 
     .tarjeta-anime {
         width: 100% !important;
-        margin: 0 !important;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
+        margin: 0 !important; /* ¡Esto mata el espacio gigante! */
+        padding: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
     }
 
-    /* 3. Controlamos el tamaño exacto de la portada */
+    /* 3. Aseguramos que la imagen siga midiendo lo mismo */
     .anime-card img, 
     .tarjeta-anime img {
         width: 100% !important;
-        height: 220px !important; /* Altura fija para que todas las portadas se vean parejas */
-        object-fit: cover !important; /* Recorta la imagen sin aplastarla ni deformarla */
+        height: 220px !important;
+        object-fit: cover !important;
         border-radius: 8px !important;
+        margin-bottom: 5px !important; /* Separación mínima entre foto y título */
     }
-
-    /* 4. Achicamos un poco el título para que no se salga de la tarjeta */
+    
+    /* 4. Título ajustado */
     .anime-card h3, 
-    .tarjeta-anime h3,
-    .anime-card span {
+    .tarjeta-anime h3 {
+        margin: 0 !important;
         font-size: 0.95rem !important;
-        text-align: center;
-        margin-top: 8px;
-        word-wrap: break-word !important;
+        text-align: center !important;
+        line-height: 1.2 !important;
     }
 }
 
