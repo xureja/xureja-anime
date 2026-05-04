@@ -976,6 +976,7 @@ html, body {
         /* Limitamos las líneas para que una sinopsis larga no tape todo */
         display: -webkit-box !important;
         -webkit-line-clamp: 4 !important;
+        line-clamp: 4 !important;
         -webkit-box-orient: vertical !important;
         overflow: hidden !important;
     }
